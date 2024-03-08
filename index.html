@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" class="antialiased">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +14,12 @@
             max-height: 16rem;
         }
 
-        /*Quick overrides of the form input as using the CDN version*/
         .form-input,
         .form-textarea,
         .form-select,
         .form-multiselect {
             background-color: #edf2f7;
+            padding: 3px;
         }
     </style>
 
@@ -31,7 +30,7 @@
         <div class="w-full container mx-auto flex flex-wrap items-center justify-between my-4">
             <div class="pl-4 md:pl-0">
                 <a class="flex items-center text-green-600 text-base xl:text-xl no-underline hover:no-underline font-extrabold font-sans"
-                    href="#">
+                    href="index.html">
                     <svg class="fill-current h-6 inline-block text-green-600 mr-4" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20">
                         <path
@@ -39,53 +38,9 @@
                     </svg> Stori
                 </a>
             </div>
-
-            <div class="pr-0 flex justify-end">
-
-                <div class="flex relative inline-block float-right">
-
-                    <div class="relative text-sm">
-
-                        <button id="userButton"
-                            class="flex items-center mr-3 shadow bg-green-700 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white text-sm md:text-base font-bold py-2 px-4 rounded">
-                            Menu
-                            <svg class="pl-2 h-2 fill-current text-white" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129 129"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 129 129">
-                                <g>
-                                    <path
-                                        d="m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z" />
-                                </g>
-                            </svg>
-                        </button>
-
-                        <div id="userMenu"
-                            class="bg-white rounded shadow-md mt-2 mr-2 absolute mt-12 top-0 right-0 min-w-full overflow-auto z-30 invisible">
-                            <ul class="list-reset">
-                                <li><a href="#"
-                                        class="px-4 py-2 block hover:bg-gray-400 no-underline hover:no-underline">My
-                                        account</a></li>
-                                <li><a href="#"
-                                        class="px-4 py-2 block hover:bg-gray-400 no-underline hover:no-underline">Notifications</a>
-                                </li>
-                                <li>
-                                    <hr class="border-t mx-2 border-gray-400">
-                                </li>
-                                <li><a href="#"
-                                        class="px-4 py-2 block text-green-600 font-bold hover:bg-green-600 hover:text-white no-underline hover:no-underline">Logout</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
         </div>
     </nav>
-    <!--Container-->
-    <div class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16">
+    <div class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16" id="container">
         <div class="w-full lg:w-1/5 px-6 text-xl text-gray-800 leading-normal">
             <p class="text-base font-bold py-2 lg:pb-6 text-gray-700">Menu</p>
             <div class="block lg:hidden sticky inset-0">
@@ -99,276 +54,241 @@
             <div class="w-full sticky inset-0 hidden max-h-64 lg:h-auto overflow-x-hidden overflow-y-auto lg:overflow-y-hidden lg:block mt-0 my-2 lg:my-0 border border-gray-400 lg:border-transparent bg-white shadow lg:shadow-none lg:bg-transparent z-20"
                 style="top:6em;" id="menu-content">
                 <ul class="list-reset py-2 md:py-0">
-                    <li
-                        class="py-1 md:my-2 hover:bg-green-100 lg:hover:bg-transparent border-l-4 border-transparent font-bold border-green-600">
-                        <a href='#section1'
+                    <li class="py-1 md:my-2 hover:bg-green-100 lg:hover:bg-transparent border-l-4 border-transparent font-bold"
+                        v-if="block != ''">
+                        <a href='index.html'
                             class="block pl-4 align-middle text-gray-700 no-underline hover:text-green-600">
-                            <span class="pb-1 md:pb-0 text-sm">Register account</span>
+                            <span class="pb-1 md:pb-0 text-sm">Reset</span>
                         </a>
                     </li>
-                    <li class="py-1 md:my-2 hover:bg-green-100 lg:hover:bg-transparent border-l-4 border-transparent">
+
+                    <li class="py-1 md:my-2 hover:bg-green-100 lg:hover:bg-transparent border-l-4 border-transparent border-green-600 font-bold"
+                        v-if="block == 'registerblock'">
+                        <a href='#section1'
+                            class="block pl-4 align-middle text-gray-700 no-underline hover:text-green-600">
+                            <span class="pb-1 md:pb-0 text-sm">Register</span>
+                        </a>
+                    </li>
+                    <li class="py-1 md:my-2 hover:bg-green-100 lg:hover:bg-transparent border-l-4 border-transparent border-green-600"
+                        v-if="block == 'accountblock'">
                         <a href='#section2'
+                            class="block pl-4 align-middle text-gray-700 no-underline hover:text-green-600">
+                            <span class="pb-1 md:pb-0 text-sm">Account</span>
+                        </a>
+                    </li>
+                    <li class="py-1 md:my-2 hover:bg-green-100 lg:hover:bg-transparent border-l-4 border-transparent border-green-600"
+                        v-if="block == 'uploadblock'">
+                        <a href='#section3'
                             class="block pl-4 align-middle text-gray-700 no-underline hover:text-green-600">
                             <span class="pb-1 md:pb-0 text-sm">Upload file</span>
                         </a>
                     </li>
-                    <li class="py-1 md:my-2 hover:bg-green-100 lg:hover:bg-transparent border-l-4 border-transparent">
-                        <a href='#section3'
+                    <li class="py-1 md:my-2 hover:bg-green-100 lg:hover:bg-transparent border-l-4 border-transparent border-green-600"
+                        v-if="block == 'processblock'">
+                        <a href='#section4'
                             class="block pl-4 align-middle text-gray-700 no-underline hover:text-green-600">
                             <span class="pb-1 md:pb-0 text-sm">Process</span>
                         </a>
                     </li>
-                    <!-- <li class="py-1 md:my-2 hover:bg-green-100 lg:hover:bg-transparent border-l-4 border-transparent">
-                        <a href='#section4'
-                            class="block pl-4 align-middle text-gray-700 no-underline hover:text-green-600">
-                            <span class="pb-1 md:pb-0 text-sm">Section 4</span>
-                        </a>
-                    </li>
-
-                    <li class="py-1 md:my-2 hover:bg-green-100 lg:hover:bg-transparent border-l-4 border-transparent">
-                        <a href='#section5'
-                            class="block pl-4 align-middle text-gray-700 no-underline hover:text-green-600">
-                            <span class="pb-1 md:pb-0 text-sm">Section 5</span>
-                        </a>
-                    </li> -->
                 </ul>
             </div>
         </div>
 
-        <!--Section container-->
         <section class="w-full lg:w-4/5">
-            <!--Title-->
-            <h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">New register</h2>
-            <!--Card-->
-            <div id='section1' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
-                <form>
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/3">
-                            <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4"
-                                for="my-textfield">
-                                Owner
-                            </label>
+            <div v-if="block == 'registerblock'">
+                <h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">New user</h2>
+                <div id='section1' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
+                    <form @submit.prevent="register" autocomplete="off">
+                        <div class="md:flex mb-6">
+                            <div class="md:w-1/3">
+                                <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="name">
+                                    Name
+                                </label>
+                            </div>
+                            <div class="md:w-2/3">
+                                <input class="form-input block w-full focus:bg-white" id="name" type="text"
+                                    placeholder="juan perez" v-model="user.name" required>
+                            </div>
                         </div>
-                        <div class="md:w-2/3">
-                            <input class="form-input block w-full focus:bg-white" id="my-textfield" type="text"
-                                value="">
-                            <p class="py-2 text-sm text-gray-600">Add your full name</p>
+                        <div class="md:flex mb-6">
+                            <div class="md:w-1/3">
+                                <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="email">
+                                    Email
+                                </label>
+                            </div>
+                            <div class="md:w-2/3">
+                                <input class="form-input block w-full focus:bg-white" id="email" type="text"
+                                    placeholder="juan@gmail.com" v-model="user.email" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/3">
-                            <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4"
-                                for="my-textfield">
-                                Bank
-                            </label>
+                        <div class="md:flex md:items-center">
+                            <div class="md:w-1/3"></div>
+                            <div class="md:w-2/3">
+                                <button
+                                    class="shadow bg-green-700 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                                    type="submit">
+                                    Save
+                                </button>
+                            </div>
                         </div>
-                        <div class="md:w-2/3">
-                            <input class="form-input block w-full focus:bg-white" id="my-textfield" type="text"
-                                value="">
-                            <p class="py-2 text-sm text-gray-600">Add your custom bank</p>
-                        </div>
-                    </div>
-
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/3">
-                            <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="my-select">
-                                Type
-                            </label>
-                        </div>
-                        <div class="md:w-2/3">
-                            <select name="" class="form-select block w-full focus:bg-white" id="my-select">
-                                <option value="debit">Debit</option>
-                                <option value="credit">Credit</option>
-                            </select>
-                            <p class="py-2 text-sm text-gray-600">Add specific bank type</p>
-                        </div>
-                    </div>
-
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/3">
-                            <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4"
-                                for="my-textarea">
-                                Number
-                            </label>
-                        </div>
-                        <div class="md:w-2/3">
-                            <input class="form-input block w-full focus:bg-white" id="my-textfield" type="text"
-                                value="">
-                            <p class="py-2 text-sm text-gray-600">Add your card number</p>
-                        </div>
-                    </div>
-
-                    <div class="md:flex md:items-center">
-                        <div class="md:w-1/3"></div>
-                        <div class="md:w-2/3">
-                            <button
-                                class="shadow bg-green-700 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                                type="button">
-                                Save
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
+                    </form>
+                </div>
             </div>
-            <!--/Card-->
 
-            <!--divider-->
-            <hr class="bg-gray-300 my-12">
-
-            <!--Title-->
-            <h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Upload to S3</h2>
-
-            <!--Card-->
-            <div id='section2' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
-                <form>
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/3">
-                            <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4"
-                                for="my-multiselect">
-                                Transactions file
-                            </label>
+            <div v-if="block == 'accountblock'">
+                <h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">New account bank</h2>
+                <div id='section2' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
+                    <form @submit.prevent="accountSave" autocomplete="off">
+                        <div class="md:flex mb-6">
+                            <div class="md:w-1/3">
+                                <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="owner">
+                                    Owner
+                                </label>
+                            </div>
+                            <div class="md:w-2/3">
+                                <input class="form-input block w-full focus:bg-white" id="owner" type="text"
+                                    v-model="account.owner" required>
+                            </div>
                         </div>
-                        <div class="md:w-2/3">
-                            <input class="block w-full focus:bg-white" type="file" id="file" name="file">
-                            <p class="py-2 text-sm text-gray-600">Add .csv format</p>
+                        <div class="md:flex mb-6">
+                            <div class="md:w-1/3">
+                                <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="bank">
+                                    Bank
+                                </label>
+                            </div>
+                            <div class="md:w-2/3">
+                                <input class="form-input block w-full focus:bg-white" id="bank" type="text"
+                                    v-model="account.bank" required>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="md:flex md:items-center">
-                        <div class="md:w-1/3"></div>
-                        <div class="md:w-2/3">
-                            <button
-                                class="shadow bg-green-700 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                                type="button">
-                                Save
-                            </button>
+                        <div class="md:flex mb-6">
+                            <div class="md:w-1/3">
+                                <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4" for="type">
+                                    Type
+                                </label>
+                            </div>
+                            <div class="md:w-2/3">
+                                <select name="" class="form-select block w-full focus:bg-white" id="type"
+                                    v-model="account.type">
+                                    <option value="debit">Debit</option>
+                                    <option value="credit">Credit</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                </form>
 
+                        <div class="md:flex mb-6">
+                            <div class="md:w-1/3">
+                                <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4"
+                                    for="number">
+                                    Number
+                                </label>
+                            </div>
+                            <div class="md:w-2/3">
+                                <input class="form-input block w-full focus:bg-white" id="number" type="text"
+                                    v-model="account.number" required>
+                            </div>
+                        </div>
+
+                        <div class="md:flex md:items-center">
+                            <div class="md:w-1/3"></div>
+                            <div class="md:w-2/3">
+                                <button
+                                    class="shadow bg-green-700 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                                    type="submit">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <!--/Card-->
 
-            <!--divider-->
-            <hr class="bg-gray-300 my-12">
+            <div v-if="block == 'uploadblock'">
 
-            <!--Title-->
-            <h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Process transactions</h2>
+                <h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Upload transaction file to
+                    S3</h2>
 
-            <!--Card-->
-            <div id='section3' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
-                <form>
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead
-                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Account ID
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        URL
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                                    <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        account xtx
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        http://demo.com/s3/xyz
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Execute</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+                <div id='section3' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
+                    <form @submit.prevent="submitFile" enctype="multipart/form-data">
+                        <div class="md:flex mb-6">
+                            <div class="md:w-1/3">
+                                <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4"
+                                    for="my-multiselect">
+                                    CSV file
+                                </label>
+                            </div>
+                            <div class="md:w-2/3">
+                                <input class="block w-full focus:bg-white" @change="uploadFile" ref="file" type="file"
+                                    id="file" name="file" required>
+                            </div>
+                        </div>
 
+                        <div class="md:flex md:items-center">
+                            <div class="md:w-1/3"></div>
+                            <div class="md:w-2/3">
+                                <button
+                                    class="shadow bg-green-700 hover:bg-green-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                                    type="submit" :disabled="isDisabled">
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <!--/Card-->
+
+            <div v-if="block == 'processblock'">
+
+                <h2 class="font-sans font-bold break-normal text-gray-700 px-2 pb-8 text-xl">Process transactions</h2>
+
+                <div id='section4' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
+                    <form>
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Owner
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            URL
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50
+                                    even:dark:bg-gray-800 border-b dark:border-gray-700" v-for="element in txns">
+                                        <th scope="row"
+                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ element.account_name}}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{ element.url }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <a href="#" @click="executeFile(element.account_id)"
+                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Execute
+                                                Transaction File</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </section>
-        <!--/Section container-->
-
-        <!--Back link -->
-        <div class="w-full lg:w-4/5 lg:ml-auto text-base md:text-sm text-gray-600 px-4 py-24 mb-12">
-            <span class="text-base text-green-600 font-bold">&lt;</span> <a href="#"
-                class="text-base md:text-sm text-green-600 font-bold no-underline hover:underline">Back link</a>
-        </div>
-
     </div>
-    <!--/container-->
 
-    <!-- Toggle dropdown list -->
-    <script>
-        /*https://gist.github.com/slavapas/593e8e50cf4cc16ac972afcbad4f70c8*/
-
-        var userMenuDiv = document.getElementById("userMenu");
-        var userMenu = document.getElementById("userButton");
-
-        var helpMenuDiv = document.getElementById("menu-content");
-        var helpMenu = document.getElementById("menu-toggle");
-
-        document.onclick = check;
-
-        function check(e) {
-            var target = (e && e.target) || (event && event.srcElement);
-
-            //User Menu
-            if (!checkParent(target, userMenuDiv)) {
-                // click NOT on the menu
-                if (checkParent(target, userMenu)) {
-                    // click on the link
-                    if (userMenuDiv.classList.contains("invisible")) {
-                        userMenuDiv.classList.remove("invisible");
-                    } else { userMenuDiv.classList.add("invisible"); }
-                } else {
-                    // click both outside link and outside menu, hide menu
-                    userMenuDiv.classList.add("invisible");
-                }
-            }
-
-            //Help Menu
-            if (!checkParent(target, helpMenuDiv)) {
-                // click NOT on the menu
-                if (checkParent(target, helpMenu)) {
-                    // click on the link
-                    if (helpMenuDiv.classList.contains("hidden")) {
-                        helpMenuDiv.classList.remove("hidden");
-                    } else { helpMenuDiv.classList.add("hidden"); }
-                } else {
-                    // click both outside link and outside menu, hide menu
-                    helpMenuDiv.classList.add("hidden");
-                }
-            }
-
-        }
-
-        function checkParent(t, elm) {
-            while (t.parentNode) {
-                if (t == elm) { return true; }
-                t = t.parentNode;
-            }
-            return false;
-        }
-
-    </script>
-
-    <!-- jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <!-- Scroll Spy -->
     <script>
-        /* http://jsfiddle.net/LwLBx/ */
-
         // Cache selectors
         var lastId,
             topMenu = $("#menu-content"),
@@ -389,9 +309,6 @@
             $('html, body').stop().animate({
                 scrollTop: offsetTop
             }, 300);
-            if (!helpMenuDiv.classList.contains("hidden")) {
-                helpMenuDiv.classList.add("hidden");
-            }
             e.preventDefault();
         });
 
@@ -417,7 +334,11 @@
                     .end().filter("[href='#" + id + "']").parent().addClass("font-bold border-green-600");
             }
         });
-
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
+
 </html>
