@@ -1,5 +1,4 @@
-// const API = "http://165.227.68.59:8080";
-const API = "http://localhost:8080";
+const API = process.env.API;
 
 var StoriApp = new Vue({
   el: "#container",
